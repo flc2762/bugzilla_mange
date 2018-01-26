@@ -1,0 +1,158 @@
+支持的log路径格式：
+1.iwhale2-------727619------Hewei.Gu@spreadtrum.com
+Log路径: \Testlogs\PSST\AndroidN\iWhale2\MOCORDROID7.0_Trunk_K44_IWHALE2_W17.32.2\bugID.rar
+各服务器地址:
+外网: \\shnas02\TestData
+内网: \\Logserver\TestData\
+展讯FTP: ftp://log.spreadtrum.com/ (外网登录名和密码)
+展卓FTP: sftp://ftp.spreadtrum.com/ (登录名: spreadst)
+DES: https://des.spreadtrum.com/ (外网登录名和密码)
+[13.Version Path]: \\10.0.1.110\hudson\ShareData\CSDataRelease\Test_Products_Library\sprdroid7.0_trunk\MOCORDROID7.0_Trunk_K44_IWHALE2\MOCORDROID7.0_Trunk_K44_IWHALE2_W17.32.2\Images
+
+2.isharkl2----738276-------shuai.gao@spreadtrum.com
+[12.Log Path]:
+Log路径: \Testlogs\PSST\AndroidN\iSharkL2\MOCORDROID7.0_Trunk_K44_17C_ISharkL2_W17.34.5\bugID.rar
+各服务器地址: 
+外网: \\shnas02\TestData\
+内网: \\Logserver\TestData\
+展讯FTP: ftp://log.spreadtrum.com/ (外网登录名和密码)
+展卓FTP: sftp://ftp.spreadtrum.com/ (登录名: spreadst)
+DES: https://des.spreadtrum.com/ (外网登录名和密码)
+[13.Version Path]:
+\\10.0.1.110\Release_GMS\sprdroid7.0_trunk\MOCORDROID7.0_Trunk_K44_17C_ISharkL2\MOCORDROID7.0_Trunk_K44_17C_ISharkL2_W17.34.5\Images\sp9853i_1h10_vmm_tos-userdebug-gms
+
+3.isharkl2---------736380--------Arvid.Chang@spreadtrum.com
+[14.Logpath          ]:
+Log路径: \\shnas02\TestData\TestLogs\CSFT\SH_FT\0824\iSharkL2
+各服务器地址: 
+外网: \\shnas02\TestData\
+内网: \\Logserver\TestData\
+展讯FTP: ftp://log.spreadtrum.com/ (外网登录名和密码)
+展卓FTP: sftp://ftp.spreadtrum.com/ (登录名: spreadst)
+DES: https://des.spreadtrum.com/ (外网登录名和密码)
+
+[15.Logfile          ]:
+kernal crash.rar
+
+[16.Logtype (Call | Data | Network | SMS | SIM | Default)]: Default
+[17.Others           ]:
+[18.Version Path]:
+\\10.0.1.110\Hudson\ShareData\CSDataRelease\Test_Products_Library\sprdroid7.0_trunk\MOCORDROID7.0_Trunk_K44_ISharkL2\MOCORDROID7.0_Trunk_K44_ISharkL2_W17.33.5
+
+4.sharkle-------------737832-----------------Qian.Ji@spreadtrum.com
+[12.Logpath          ]：
+获取log的方式为服务器地址+Log路径
+Log路径:TestLogs\Camera\SharkLE\MOCORDROID8.0_PDK_SHARKLE_W17.34.5
+各服务器地址: 
+外网: \\shnas02\TestData\
+内网: \\Logserver\TestData\
+展讯FTP: ftp://log.spreadtrum.com/ (外网登录名和密码)
+展卓FTP: sftp://ftp.spreadtrum.com/ (登录名: spreadst)
+DES: https://des.spreadtrum.com/ (外网登录名和密码)
+13.Analysis        ]：问题时间点：13:40
+
+5.sharkle---------------737797------------------Pu.Xu@spreadtrum.com
+外网:\\shnas02\TestData\TestLogs\WCN\2017_AndroidO_SharkLE_Marlin2\Marlin2_17A_W17.34.5
+(请至此路径找对应CR号命名的压缩包)
+内网: \\Logserver\TestData\TestLogs\(请至此路径找对应CR号命名的压缩包)
+展讯FTP: ftp://log.spreadtrum.com/TestLogs(请至此路径找对应CR号命名的压缩包) (外网登录名和密码)
+展卓FTP: sftp://ftp.spreadtrum.com/TestLogs/(请至此路径找对应CR号命名的压缩包) (登录名: spreadst)
+DES: https://des.spreadtrum.com/TestLogs/(请至此路径找对应CR号命名的压缩包) (外网登录名和密码)
+
+6.sharkle----------------738373-----------------zhaoyang@spreadst.com
+[10.Logpath         ]:
+sftp://ftp.spreadtrum.com/AndroidN/sharkle/BugID
+user:StabTest  
+pwd:2lKs68kg
+[11.版本路径]
+http://10.0.1.163:8080/jenkins/job/sprdroid8.0_pdk_sharkle/549/
+
+7.sharkle---------------738941------------------Li.Yan@spreadtrum.com
+[14.Logpath]:
+
+log名称：bugid
+log路径：\TestLogs\PSST\AndroidO\SharkLE\MOCORDROID8.0_PDK_SHARKLE_W17.34.5
+各服务器地址: 
+外网: \\shnas02\TestData\
+内网: \\Logserver\TestData\
+展讯FTP: ftp://log.spreadtrum.com/ (外网登录名和密码)
+展卓FTP: sftp://ftp.spreadtrum.com/ (登录名: spreadst)
+DES: https://des.spreadtrum.com/ (外网登录名和密码)
+
+[15.Logfile          ]:
+[16.Logtype (Call | Data | Network | SMS | SIM | Default)]: Default
+[17.Others           ]:
+[18.Version Path]:\\10.0.1.110\Hudson\ShareData\CSDataRelease\Test_Products_Library\sprdroid8.0_trunk\MOCORDROID8.0_PDK_SHARKLE\MOCORDROID8.0_PDK_SHARKLE_W17.34.5
+
+8.sharkle---------------740894------------------Bi.Xiong@spreadtrum.com
+[15.Logpath          ]:
+\\shnas02\TestData\TestLogs\WCN\2017_AndroidO_SharkLE_Marlin2\Marlin2_17A_W17.34.2(请至此路径找对应CR号命名的压缩包)
+内网:
+\\Logserver\TestData\TestLogs\2017_AndroidO_SharkLE_Marlin2\Marlin2_17A_W17.34.2(请至此路径找对应CR号命名的压缩包)
+展卓服务器: (帐号名 spreadst）
+ftp://sftp://ftp.spreadtrum.com/ FromTest/TestLogs/2017_AndroidO_SharkLE_Marlin2\Marlin2_17A_W17.34.2(请至此路径找对应CR号命名的压缩包)
+
+9.sharkle---------------740436------------------xiaojun.wu@spreadtrum.com
+[12.Logpath    ]:
+Log路径: \TestLogs\PSST\AndroidO\SharkLE\MOCORDROID8.0_PDK_SHARKLE_W17.34.5\monkey\#464.zip
+各服务器地址: 
+外网: \\shnas02\TestData\
+内网: \\Logserver\TestData\
+展讯FTP: ftp://log.spreadtrum.com/ (外网登录名和密码)
+展卓FTP: sftp://ftp.spreadtrum.com/ (登录名: spreadst)
+DES: https://des.spreadtrum.com/ (外网登录名和密码)
+
+
+[13.VerisonPath      ]:                                       
+\\10.0.1.110\Hudson\ShareData\CSDataRelease\Test_Products_Library\sprdroid8.0_trunk\MOCORDROID8.0_PDK_SHARKLE\MOCORDROID8.0_PDK_SHARKLE_W17.34.5\Images
+
+10.sharkle---------------739513------------------hui_hui.zhang@spreadtrum.com
+[15.Logpath]: 
+Log名称:同bugID
+Log路径: \\shnas02\TestData\TestLogs\Beta\2017\iSharkl2\MOCORDROID7.0_Trunk_K44_17C_ISharkL2_W17.34.6
+各服务器地址: 
+外网: \\shnas02\TestData\
+内网: \\Logserver\TestData\
+展讯FTP: ftp://log.spreadtrum.com/ (外网登录名和密码)
+展卓FTP: sftp://ftp.spreadtrum.com/ (登录名: spreadst)
+DES: https://des.spreadtrum.com/ (外网登录名和密码)
+[16.Version  path]:
+\\10.0.1.110\Hudson\ShareData\CSDataRelease\Test_Products_Library\sprdroid7.0_trunk\MOCORDROID7.0_Trunk_K44_17C_ISharkL2\MOCORDROID7.0_Trunk_K44_17C_ISharkL2_W17.34.6
+[17.key word]: 与的关系 1）9853 isharkl2  OTG（有相似）
+Bug 682050 - [PSST][SC9853-1][7.0][USB]手机通过OTG线连接移动硬盘，插拔OTG线出现kernel crash
+
+11.sharkle---------------741351------------------Peng_peng.Li@spreadtrum.com
+[14.Logpath          ]:
+\\shnas02\TestData\TestLogs\BJT\2017\0901\BAT
+[15.Logfile     ]:
+BugID_ylog
+
+备注：稳定性log较大，上传较慢，查询不到log请联系沟通，谢谢。
+
+各服务器地址: 
+外网: \\shnas02\TestData\
+内网: \\Logserver\TestData\
+展讯FTP: ftp://log.spreadtrum.com/ (外网登录名和密码)
+展卓FTP: sftp://ftp.spreadtrum.com/ (登录名: spreadst)
+DES: https://des.spreadtrum.com/ (外网登录名和密码)
+
+
+[16.Logtype (Call | Data | Network | SMS | SIM | Default)]: 
+Default
+[17.Others           ]:
+无
+[18.Version Path]:
+\\10.0.1.110\Hudson\ShareData\CSDataRelease\Test_Products_Library\sprdroid7.0_trunk\MOCORDROID7.0_Trunk_K44_ISharkL2_CMCC\MOCORDROID7.0_Trunk_K44_ISharkL2_CMCC_W17.35.4
+
+12.sharkle---------------741537------------------jiaqi.chen@spreadtrum.com
+[10.Logpath         ]:
+Log路径: \TestLogs\TJ\2017\SharklE\MOCORDROID8.0_Trunk_SHARKLE_W17.35.4\Local（bug号命名的压缩包）
+各服务器地址: 
+外网: \\shnas02\TestData\
+内网: \\Logserver\TestData\
+展讯FTP: ftp://log.spreadtrum.com/ (外网登录名和密码)
+展卓FTP: sftp://ftp.spreadtrum.com/ (登录名: spreadst)
+DES: https://des.spreadtrum.com/ (外网登录名和密码)
+
+[11.Analysis        ]:
+版本路径：\\10.0.1.110\Hudson\ShareData\CSDataRelease\Test_Products_Library\sprdroid8.0_trunk\SPRDROIDO_PDK\MOCORDROID8.0_Trunk_SHARKLE_W17.35.4
