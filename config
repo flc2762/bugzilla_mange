@@ -1,19 +1,31 @@
 [info]
 
 CONFIG_VERSION = 1.0
+
 BUGZILLA_USERNAME = fanlc@spreadst.com
 BUGZILLA_PASSWORD = f1111111
 KERNEL_MEMBERS = zhaoxb@spreadst.com,wuls@spreadst.com,zhaoyd@spreadst.com,wangxz@spreadst.com,jianxing@spreadst.com,fanlc@spreadst.com,rangsn@spreadst.com,Hao_hao.Wang@spreadtrum.com,jia.hou@spreadtrum.com,changjr@spreadst.com,ace.an@spreadtrum.com
-STATUS_FIELDS_a = NEW,Assigned
-SEND_MAIL = zhaoxb@spreadst.com,wuls@spreadst.com,zhaoyd@spreadst.com,jianxing@spreadst.com,fanlc@spreadst.com,rangsn@spreadst.com,changjr@spreadst.com
-#SEND_MAIL = fanlc@spreadst.com
-PRODUCT_FIELDS = Sprdroid_7.0_iWhale2,Sprdroid_7.0_iSharkL2,Sprdroid8.0_SharkLE,Sprdroid8.0_iSharkL2,Sprdroid8.x_pike2,Sprdroid6.0_kaios_16c_9820e,Sprdroid4.4_sfphone_9820E,Sprdroid8.1_SharkLE
+STATUS_FIELDS = NEW,Assigned
+PRODUCT_FIELDS = Sprdroid_7.0_iWhale2,Sprdroid_7.0_iSharkL2,Sprdroid8.0_iSharkL2,Sprdroid8.x_pike2,Sprdroid6.0_kaios_16c_9820e,Sprdroid4.4_sfphone_9820E,Sprdroid8.1_SharkLE
 DEFAULT_FIELDS = id,status,product,assigned_to,summary,whiteboard,cf_base_on_ver
-FTP_NAME = spreadst
-FTP_PASSWORD = spread$26?ST
+
+FTP_SERVER_INFO = ftp.spreadtrum.com,spreadst,spread$26?ST;ftp.spreadtrum.com,StabTest,2lKs68kg
+
 SAMBA_USERNAME = lc.fan
 SAMBA_PASSWORD = FLC@1712
 SAMBA_REMOTEIP = 10.0.1.110
-TEST_BUGLIST =
-DOWNLOAD_BUGID = 
-DOWNLOAD_PATH =
+
+MAIL_ADDR = fanlc@spreadst.com
+MAIL_PASSWORD = fanlc123456789
+MAIL_SMTP = mail.spreadst.com
+SEND_MAIL = zhaoxb@spreadst.com,wuls@spreadst.com,zhaoyd@spreadst.com,jianxing@spreadst.com,fanlc@spreadst.com,rangsn@spreadst.com,changjr@spreadst.com
+#SEND_MAIL = fanlc@spreadst.com
+
+SOCKET_SERVER_IP = 10.0.70.50
+SOCKET_SERVER_PORT = 1024
+SOCKET_MODE = 0
+
+SCP_SERVER_IP = 10.0.70.50
+SCP_USER = apuser
+SCP_PASSWORD = 123456
+SCP_DIR = /home/apuser/Web_Buglist
