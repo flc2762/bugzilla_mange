@@ -14,9 +14,9 @@ import dispense_work
 class socket_server():
 
     socket_client_list = []
-    socket_client_close_list = []
+#    socket_client_close_list = []
     socket_client_list_lock = threading.Lock()
-    socket_client_close_list_lock = threading.Lock()
+#    socket_client_close_list_lock = threading.Lock()
     dispense_work_list = []
     redispense_work_list = []
     dispense_work_list_lock = threading.Lock()
@@ -27,6 +27,9 @@ class socket_server():
     server_main_path = ''
     socket_server_proc = 0
     socket_recv_data_remnant = ''
+    update_code = 0
+    update_code_addr_list = []
+    update_code_addr_list_lock = threading.Lock()
 
     def __init__(self, ip, port, recv_size, connect_num):
         self.socket_server_ip = ip
@@ -42,35 +45,38 @@ class socket_server():
 
         local_file_dir = ''
         local_file_dir = path + r'/' + str(bugid)
-        if '_' in file_name:
-            local_file_name = file_name.split('_')[-1]
-        else:
-            local_file_name = file_name
+
+        local_file_name = file_name
 
         print_string = "join bug %s file %s log ..." % (str(bugid), local_file_name)
-        print_info.print_info(print_info.PRINT_DEBUG, print_string)
+        print_info.print_info(print_info.PRINT_INFO, print_string)
         if os.path.exists(local_file_dir + r'/' + local_file_name):
             os.remove(local_file_dir + r'/' + local_file_name)
         for x in range(max_index + 1):
-            fread = open(local_file_dir + r'/' + str(x) + '_' + local_file_name, 'r')
-            data = fread.read()
-            with open(local_file_dir + r'/' + local_file_name, 'ab') as lwrite:
-                lwrite.write(data)
-            fread.close()
-            os.remove(local_file_dir + r'/' + str(x) + '_' + local_file_name)
+            try:
+                fread = open(local_file_dir + r'/' + str(x) + '_' + local_file_name, 'r')
+            except Exception, e:
+                print_string = "join bug %s file error,open file %s" % (str(bugid), e)
+                print_info.print_info(print_info.PRINT_ERROR, print_string)
+            else:
+                data = fread.read()
+                with open(local_file_dir + r'/' + local_file_name, 'ab') as lwrite:
+                    lwrite.write(data)
+                fread.close()
+                os.remove(local_file_dir + r'/' + str(x) + '_' + local_file_name)
 
         self.download_log_ok_list_lock.acquire()
         self.download_log_ok_list.append(bugid)
-        self.download_log_ok_list_lock_lock.release()
+        self.download_log_ok_list_lock.release()
 
         print_string = "join bug %s file %s ok" % (str(bugid), local_file_name)
-        print_info.print_info(print_info.PRINT_DEBUG, print_string)
+        print_info.print_info(print_info.PRINT_INFO, print_string)
 
     def socket_server_send(self, sock, data):
         try:
             sock.send(data)
         except Exception, e:
-            print_string = "send data to socket client error %s" % e
+            print_string = "send data to socket %s ,client error %s" % (sock, e)
             print_info.print_info(print_info.PRINT_ERROR, print_string)
             return 0
         else :
@@ -86,17 +92,21 @@ class socket_server():
         download_ok_bugid = ''
         download_ok_index = 0
         download_ok_filename = ''
+        list_index = 0
 
         print_string = "recv data %s " % data
-        print_info.print_info(print_info.PRINT_INFO, print_string)
+        print_info.print_info(print_info.PRINT_DEBUG, print_string)
 
         if len(self.socket_recv_data_remnant):
             data = self.socket_recv_data_remnant + data
             self.socket_recv_data_remnant = ''
 
-        if '*' in data :
+        if '*' in data:
             cut_data = data.strip('*').split('*')
-        else :
+            if data[-1] != '*':
+                self.socket_recv_data_remnant = cut_data[-1]
+                cut_data.pop(-1)
+        else:
             if not data or data.decode('utf-8') == 'exit':
                 sock.close()
                 self.socket_client_list_lock.acquire()
@@ -106,14 +116,17 @@ class socket_server():
                         break
                 self.socket_client_list_lock.release()
 
-                self.dispense_work_list_lock.acquire()
-                for i in range(len(dispense_work_list) - 1, -1, -1):
-                    if sock in dispense_work_list[i] :
-                        self.redispense_work_list.append(dispense_work_list[i])
-                        dispense_work_list.pop(i)
-                self.dispense_work_list_lock.release()
-                return 0
-            cut_data.append(data)
+                if len(self.dispense_work_list):
+                    print_string = 'dispense_work_list %s' % self.dispense_work_list
+                    print_info.print_info(print_info.PRINT_INFO, print_string)
+                    self.dispense_work_list_lock.acquire()
+                    for i in range(len(self.dispense_work_list) - 1, -1, -1):
+                        if sock in self.dispense_work_list[i]:
+                            self.redispense_work_list.append(self.dispense_work_list[i])
+                            self.dispense_work_list.pop(i)
+                    self.dispense_work_list_lock.release()
+            self.socket_recv_data_remnant += data
+            return 0
 
         print_string = "server socket recv data %s " % cut_data
         print_info.print_info(print_info.PRINT_DEBUG, print_string)
@@ -123,25 +136,24 @@ class socket_server():
                 if ':' in recv_data_per:
                     cut_data_per = recv_data_per.split(':')
                     self.socket_client_list_lock.acquire()
-                    self.socket_client_list[self.socket_client_list.index([sock, addr])].append(cut_data_per[1])
+                    for x in self.socket_client_list:
+                        if sock in x and addr in x:
+                            self.socket_client_list[self.socket_client_list.index(x)][2] = cut_data_per[1]
+                            print_string = "client socket info(username) %s " % self.socket_client_list[
+                                self.socket_client_list.index(x)]
+                            print_info.print_info(print_info.PRINT_DEBUG, print_string)
                     self.socket_client_list_lock.release()
-                    print_string = "client socket info(username) %s " % self.socket_client_list[self.socket_client_list.index([sock, addr, cut_data_per[1]])]
-                    print_info.print_info(print_info.PRINT_INFO, print_string)
+
             elif "ftpspeed" in recv_data_per :
                 if ':' in recv_data_per:
                     cut_data_per = recv_data_per.split(':')
                     self.socket_client_list_lock.acquire()
                     for x in self.socket_client_list:
                         if sock in x:
-                            self.socket_client_list[self.socket_client_list.index(x)].append(int(cut_data_per[1]))
-                            #test ----------------------------------------------------------------
-                            a = [] + self.socket_client_list[0]
-                            self.socket_client_list.append(a)
-                            self.socket_client_list[1][3] = int(cut_data_per[1]) + 30
-                            # test ----------------------------------------------------------------
+                            self.socket_client_list[self.socket_client_list.index(x)][3] = int(cut_data_per[1])
                             self.socket_client_list.sort(reverse=True, key=lambda x: x[3])
                             print_string = "client socket info(speed) %s " % self.socket_client_list[self.socket_client_list.index(x)]
-                            print_info.print_info(print_info.PRINT_INFO, print_string)
+                            print_info.print_info(print_info.PRINT_DEBUG, print_string)
                             break
                     self.socket_client_list_lock.release()
             elif 'downloadok:' in recv_data_per :
@@ -154,19 +166,19 @@ class socket_server():
                     if 'filename:' in x:
                         download_ok_filename = x.split(':')[1]
                 if len(self.bugid_max_index):
-                    for x in bugid_max_index:
+                    for x in self.bugid_max_index:
                         if download_ok_bugid in x:
                             if x[1] < download_ok_index:
                                 self.bugid_max_index_lock.acquire()
-                                self.bugid_max_index[bugid_max_index.index(x)][1] = download_ok_index
+                                self.bugid_max_index[self.bugid_max_index.index(x)][1] = download_ok_index
                                 max_index = download_ok_index
                                 self.bugid_max_index_lock.release()
-                            else :
+                            else:
                                 max_index = x[1]
                             break
                         else:
                             max_index_num += 1
-                    if max_index_num == len(self.bugid_max_index) :
+                    if max_index_num == len(self.bugid_max_index):
                         self.bugid_max_index_lock.acquire()
                         self.bugid_max_index.append([download_ok_bugid, download_ok_index])
                         max_index = download_ok_index
@@ -179,14 +191,29 @@ class socket_server():
                     self.bugid_max_index_lock.release()
 
                 self.dispense_work_list_lock.acquire()
-                for x in self.dispense_work_list :
-                    if download_ok_bugid in x and download_ok_index in x :
-                        dispense_work_list.pop(dispense_work_list.index(x))
+                for x in self.dispense_work_list:
+                    if download_ok_bugid in x and download_ok_index in x:
+                        self.dispense_work_list.pop(self.dispense_work_list.index(x))
                 self.dispense_work_list_lock.release()
 
-                for y in self.dispense_work_list:
-                    if download_ok_bugid in y:
-                        return 1
+                self.dispense_work_list_lock.acquire()
+                list_index = 0
+                for y in range(len(self.dispense_work_list) - 1, -1, -1):
+                    if download_ok_bugid in self.dispense_work_list[y]:
+                        list_index = y + 1
+                        break
+                if list_index > 0:
+                    self.dispense_work_list_lock.release()
+                    continue
+                list_index = 0
+                for y in range(len(self.redispense_work_list) - 1, -1, -1):
+                    if download_ok_bugid in self.redispense_work_list[y]:
+                        list_index = y + 1
+                        break
+                if list_index > 0:
+                    self.dispense_work_list_lock.release()
+                    continue
+                self.dispense_work_list_lock.release()
 
                 self.bugid_max_index_lock.acquire()
                 self.bugid_max_index.pop(self.bugid_max_index.index([download_ok_bugid, max_index]))
@@ -199,15 +226,24 @@ class socket_server():
                 max_index = 0
             elif 'updatecodeok:' in recv_data_per:
                 updatecodeok_socket = recv_data_per.split(':')[1]
+                self.update_code_addr_list_lock.acquire()
+                for x in self.socket_client_list:
+                    if updatecodeok_socket in x:
+                        if x[1][0] not in self.update_code_addr_list:
+#                            self.update_code_addr_list_lock.acquire()
+                            self.update_code_addr_list.append(x[1][0])
+#                            self.update_code_addr_list_lock.release()
+                        break
+                self.update_code_addr_list_lock.release()
                 print_string = "update code ok socket %s" % updatecodeok_socket
                 print_info.print_info(print_info.PRINT_DEBUG, print_string)
-            elif len(recv_data_per) > 0:
-                self.socket_recv_data_remnant = self.socket_recv_data_remnant + recv_data_per
+#            elif len(recv_data_per) > 0:
+#                self.socket_recv_data_remnant = self.socket_recv_data_remnant + recv_data_per
 
         return 1
 
     def socket_server_status(self, sock, addr):
-        print_string = 'Accept new connection from %s:%s...' % addr
+        print_string = 'Accept new connection from %s:%s...' % (addr[0],str(addr[1]))
         print_info.print_info(print_info.PRINT_DEBUG, print_string)
         while True:
             recv_data = self.socket_server_recv(sock)
@@ -219,6 +255,8 @@ class socket_server():
     def socket_server_thread(self):
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        #set SO_REUSEADDR is true
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         # bind
         s.bind((self.socket_server_ip, self.socket_server_port))
         s.listen(self.socket_server_conn_num)
@@ -228,14 +266,25 @@ class socket_server():
             print_string = 'socket sock %s; addr %s' % (sock, addr)
             print_info.print_info(print_info.PRINT_DEBUG, print_string)
 
+
             t = threading.Thread(target=self.socket_server_status, args=(sock, addr), name="socket_master")
             t.start()
 
             self.socket_client_list_lock.acquire()
-            self.socket_client_list.append([sock, addr])
+            self.socket_client_list.append([sock, addr, '', 100000])
             self.socket_server_send(sock, 'getusername*')
             self.socket_server_send(sock, 'getftpspeed*')
             self.socket_client_list_lock.release()
+
+            if self.update_code:
+                if addr[0] not in self.update_code_addr_list:
+                    self.socket_server_send(sock, 'updatecode*')
+                    self.update_code_addr_list_lock.acquire()
+                    self.update_code_addr_list.append(addr[0])
+                    self.update_code_addr_list_lock.release()
+                    print_string = 'send updatecode to sock :%s' % sock
+                    print_info.print_info(print_info.PRINT_DEBUG, print_string)
+
         print_info.print_info(print_info.PRINT_DEBUG, 'socket sock server end')
 
 if __name__ == '__main__':

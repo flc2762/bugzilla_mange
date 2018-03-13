@@ -3,11 +3,12 @@
 
 import print_info
 
-ftp_speed_max = 100000
+#max speed 100M 100,000,000
+ftp_speed_max = 100000000
 
-#work list :ftp, port, user, password, path, filename, size
-#sock_list :sock, addr, client_user_name, speed
-#dispense_work_list :sock, ftp, port, user, password, path, filename, start, size, index
+#work list:ftp, port, user, password, path, filename, size
+#sock_list:sock, addr, client_user_name, speed
+#dispense_work_list:sock, ftp, port, user, password, path, filename, start, size, index
 def dispense_work(work, sock_list):
     client_speed_sum = 0
     speed_min = ftp_speed_max
@@ -28,9 +29,9 @@ def dispense_work(work, sock_list):
         return (0,"dispense work file size error")
 
     for x in sock_list:
-        print_string = "sock addr :%s ftp downdload speed %d bit/s" % (x[1], x[3])
+        print_string = "sock addr:%s ftp downdload speed %d bit/s" % (x[1], x[3])
         print_info.print_info(print_info.PRINT_DEBUG, print_string)
-        try :
+        try:
             if x[3] >= 0 and x[3] < ftp_speed_max:
                 client_speed_sum += x[3]
                 if x[3] < speed_min:
@@ -45,39 +46,38 @@ def dispense_work(work, sock_list):
         return (0, 'client ftp speed is 0')
     dispense_size_per = int(ftp_file_size / client_speed_sum)
 
-    for x in sock_ftp_speed_list :
+    for x in sock_ftp_speed_list:
         client_download_size = dispense_size_per * x[3]
-        if (ftp_file_size - client_download_size - ftp_file_start) < (dispense_size_per * speed_min) :
+        if (ftp_file_size - client_download_size - ftp_file_start) < (dispense_size_per * speed_min):
             client_download_size = ftp_file_size - ftp_file_start
         dispense_work_list.append([x[0], work[0], work[1], work[2], work[3], work[4],  work[5],
                                    ftp_file_start, client_download_size, ftp_download_index])
         ftp_file_start = ftp_file_start + client_download_size
-        if ftp_file_start >= ftp_file_size :
-            break;
+        if ftp_file_start >= ftp_file_size:
+            break
         ftp_download_index += 1
 
     return (1, dispense_work_list)
 
-def redispense_work(sock, dispense_work_client_list, sock_list):
+def redispense_work(dispense_work_client_list, sock_list):
     redispense_work_list = []
     sock_sum = len(sock_list)
     sock_index_num = 0
 
     for x in range(len(dispense_work_client_list)-1, -1, -1):
-        if sock in dispense_work_client_list[x] :
-            dispense_work_client_list[x][0] = sock_list[sock_index_num % sock_sum]
-            redispense_work_list.append(dispense_work_client_list[x])
-            sock_index_num += 1
-            dispense_work_client_list.pop(x)
+        dispense_work_client_list[x][0] = sock_list[sock_index_num % sock_sum][0]
+        redispense_work_list.append(dispense_work_client_list[x])
+        sock_index_num += 1
+        dispense_work_client_list.pop(x)
 
     return redispense_work_list
 
 def dispense_work_group(work_list, sock_list):
     group_dispense_work_list = []
 
-    for x in work_list :
+    for x in work_list:
         dispense_list = dispense_work(x, sock_list)
-        if dispense_list[0] :
+        if dispense_list[0]:
             group_dispense_work_list.append(dispense_list[1])
 
     return group_dispense_work_list
@@ -104,6 +104,6 @@ if __name__ == '__main__':
 
     list = dispense_work_group(group_work_list, sock_list)
     for x in list:
-        for y in x :
+        for y in x:
             print_string = "dispense work list %s" % y
             print_info.print_info(print_info.PRINT_DEBUG, print_string)

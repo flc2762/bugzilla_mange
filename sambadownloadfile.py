@@ -12,7 +12,7 @@ SAMBA_DOMAINNAME = "MYGROUPu"
 
 class download_samba():
 
-    def __init__(self,remoteip,sambadir,user,password):
+    def __init__(self, remoteip, sambadir, user, password):
         self.user_name = user
         self.password = password
         self.my_name = SAMBA_MYNAME
@@ -21,7 +21,7 @@ class download_samba():
         self.port = SAMBA_PORT
         self.dir = sambadir
 
-    def download_samba_file(self, sambafilepath, localfilepath,filename):
+    def download_samba_file(self, sambafilepath, localfilepath, filename):
         try:
             time_start = time.time()
 

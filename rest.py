@@ -31,7 +31,7 @@ class API(object):
             self.session.params['api_key'] = self.api_key
 
     def handle_error(self, message):
-        raise Exception (message)
+        raise Exception(message)
 
     def request(self, method, path, **kwargs):
         url = self.base_url + path
@@ -71,19 +71,20 @@ class API(object):
         if 'bugs' in result:
             return result['bugs']
         else:
-            self.handle_error(result['message'])
+            if 'message' in result:
+                self.handle_error(result['message'])
     
     def bug_get_id_all_info(self, params):
-	str_bugid = str(params['id'])
-	path = 'bug/' + str_bugid
+        str_bugid = str(params['id'])
+        path = 'bug/' + str_bugid
         result = self.request('GET', path)
-	return result
+        return result
 
     def bug_get_all_info(self, params):
-	str_bugid = str(params['id'])
-	path = 'bug/' + str_bugid + '/comment'
+        str_bugid = str(params['id'])
+        path = 'bug/' + str_bugid + '/comment'
         result = self.request('GET', path)
-	return result
+        return result
 
     def bug_set(self, params):
         bid = params['ids'][0]
@@ -127,7 +128,7 @@ class API(object):
             self.handle_error("can't retrieve components: '%s'" % result['message'])
 
 def main():
-	print "hahahahahh.....\n"
+    print "hahahahahh.....\n"
 	
 if __name__ == '__main__':
-	main()
+    main()

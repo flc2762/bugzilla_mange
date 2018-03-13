@@ -17,14 +17,14 @@ def init(level):
 def print_info(level, info):
     if (level >= PRINT_LEVEL):
         print_lock.acquire()
-        if level >= PRINT_ERROR :
-            print "ERROR :",
-        elif level >= PRINT_WARNING :
-            print "WARNING :",
-        elif level >= PRINT_INFO :
-            print "INFO :",
-        else :
-            print "DEBUG :",
+        if level >= PRINT_ERROR:
+            print "ERROR:",
+        elif level >= PRINT_WARNING:
+            print "WARNING:",
+        elif level >= PRINT_INFO:
+            print "INFO:",
+        else:
+            print "DEBUG:",
         print "%s" % info
         print_lock.release()
 
