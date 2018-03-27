@@ -13,12 +13,12 @@ def download_http(html_path, localfilepath, filename):
     print_string = 'get file %s ...' % filename
     print_info.print_info(print_info.PRINT_INFO,  print_string)
 
-    try :
-        urlrequest = requests.get(html_path +'/' + filename,timeout = 30)
-    except :
+    try:
+        urlrequest = requests.get(html_path + '/' + filename, timeout=30)
+    except:
         return (0, 'time out')
 
-    if int(urlrequest.status_code) > 400 :
+    if int(urlrequest.status_code) > 400:
         print_string = 'get file error %d ' % int(urlrequest.status_code)
         print_info.print_info(print_info.PRINT_WARNING, print_string)
         return (0, 'get file error')
@@ -37,11 +37,12 @@ def download_http(html_path, localfilepath, filename):
     print_info.print_info(print_info.PRINT_INFO, print_string)
 
     if urlrequest.headers.get('content-length', 0):
-        if os.path.getsize(localfilepath + r'/' + filename) >= int(urlrequest.headers['content-length']) :
+        if os.path.getsize(localfilepath + r'/' + filename) >= int(urlrequest.headers['content-length']):
             print_info.print_info(print_info.PRINT_INFO, 'get file size ok')
             return (1, 'get file size ok')
-        else :
-            print_string = 'local size %d  html size %d ' % (os.path.getsize(localfilepath + filename) ,int(urlrequest.headers['content-length']))
+        else:
+            print_string = 'local size %d  html size %d ' % (os.path.getsize(localfilepath + r'/' + filename),
+                                                             int(urlrequest.headers['content-length']))
             print_info.print_info(print_info.PRINT_ERROR, print_string)
             return (0, 'get file size error')
     print_string = 'get symbols %s ok' % filename

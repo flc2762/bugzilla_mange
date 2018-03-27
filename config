@@ -14,7 +14,7 @@ DEFAULT_FIELDS = id,status,product,assigned_to,summary,whiteboard,cf_base_on_ver
 FTP_SERVER_INFO = ftp.spreadtrum.com,spreadst,spread$26?ST;ftp.spreadtrum.com,StabTest,2lKs68kg
 
 SAMBA_USERNAME = lc.fan
-SAMBA_PASSWORD = FLC@1712
+SAMBA_PASSWORD = FLC@1803
 SAMBA_REMOTEIP = 10.0.1.110
 
 MAIL_ADDR = fanlc@spreadst.com

@@ -47,6 +47,7 @@ class download_samba():
                            (filename, file_size, time_use, samba_download_speed)
             print_info.print_info(print_info.PRINT_INFO, print_string)
             return 1
+            return 1
         except Exception, e :
             print_string = "samba download file error %s" % e
             print_info.print_info(print_info.PRINT_ERROR, print_string)

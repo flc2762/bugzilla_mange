@@ -2,37 +2,42 @@
 
 import print_info
 
-def save_write(path,file_name,contents):
+
+def save_write(path, file_name, contents):
     save_file = path + '/' + file_name
-    f = open(save_file,'w+')
+    f = open(save_file, 'wb')
     f.write(contents)
     f.close()
 
-def read_data(path,file_name):
+
+def read_data(path, file_name):
     read_file = path + '/' + file_name
-    f = open(read_file,'r')
+    f = open(read_file, 'rb')
     data = f.read()
     f.close()
     return data
 
-def save_append(path,file_name,contents):
+
+def save_append(path, file_name, contents):
     save_file = path + '/' + file_name
-    f = open(save_file,'ab')
+    f = open(save_file, 'ab')
     f.write(contents)
     f.close()
 
-def read_line(path,file_name):
+
+def read_line(path, file_name):
     read_file = path + '/' + file_name
-    f = open(read_file,'r')
+    f = open(read_file, 'rb')
     lines = f.readlines()
     f.close()
     return lines
 
+
 if __name__ == '__main__':
     print_info.init(print_info.PRINT_INFO)
     save_write("/home/local/SPREADTRUM/lc.fan/flc/code/pybz", "test_file", "log_status:0" + '\n')
-    data = read_data("/home/local/SPREADTRUM/lc.fan/flc/code/pybz", "test_file")
-    print_info.print_info(print_info.PRINT_INFO, data)
+    file_data = read_data("/home/local/SPREADTRUM/lc.fan/flc/code/pybz", "test_file")
+    print_info.print_info(print_info.PRINT_INFO, file_data)
     save_append("/home/local/SPREADTRUM/lc.fan/flc/code/pybz", "test_file", "symbols_status:0:3" + '\n')
     data_list = read_line("/home/local/SPREADTRUM/lc.fan/flc/code/pybz", "test_file")
     for x in data_list:
@@ -40,7 +45,7 @@ if __name__ == '__main__':
             # delete '\n'
             data_list[data_list.index(x)] = x.strip('\n')
 
-    for x in data_list :
+    for x in data_list:
         print 'data line % s ' % x
         print_info.print_info(print_info.PRINT_INFO, x)
         if ':' in x:

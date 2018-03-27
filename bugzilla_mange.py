@@ -92,7 +92,7 @@ DOWNLOAD_SYMBOLS_HTTP = 2
 
 DOWNLOAD_START = 4
 DOWNLOAD_OK = 3
-DOWNLOAD_FAIL = 0
+DOWNLOAD_FAIL = 5
 
 DOWNLOAD_STATUS_FILE_NAME = '.downloadfilestatus'
 file_status_lock = threading.Lock()
@@ -162,7 +162,7 @@ def read_config():
     cut_config_temp = []
 
     config_parser = ConfigParser.ConfigParser()
-    with open('./config', 'rw') as configfd:
+    with open(MAIN_PATH + '/' + os.path.split(os.path.split(CODE_PATH)[0])[1] + '/' + 'config', 'r') as configfd:
         config_parser.readfp(configfd)
 
     get_item_ret = read_item(config_parser, 'CONFIG_VERSION')
@@ -532,8 +532,13 @@ def handle_samba_params(path, name):
     samba_dir = ''
     samba_path = ''
 
-    if 'sp' in name:
-        file_name = name[name.index('sp'):]
+    if 'sp' in name or ':' in name:
+        if 'sp' in name:
+            file_name = name[name.index('sp'):]
+        elif ':' in name:
+            file_name = name[name.index(':') + 1:]
+        else:
+            file_name = name
         file_name_cut = file_name.split('_')
         # get symbols file name and symbols dir
         for x in file_name_cut:
@@ -574,7 +579,7 @@ def download_file_isok(bugid, file_flag_string):
                     break
             cut_data = []
         if len(cut_data) > 1:
-            if int(cut_data[1]) == DOWNLOAD_OK:
+            if int(cut_data[1]) == DOWNLOAD_OK or int(cut_data[1]) == DOWNLOAD_START:
                 return 1
 
     return 0
@@ -663,6 +668,10 @@ def handle_http_params(path, name):
     if '_' in name:
         if 'sp' in name:
             file_name = name[name.index('sp'):]
+        elif ':' in name:
+            file_name = name[name.index(':') + 1:]
+        else:
+            file_name = name
         file_name_cut = file_name.split('_')
         # get symbols file name and symbols dir
         for x in file_name_cut:
@@ -697,7 +706,7 @@ def handle_http_params(path, name):
 
         return (1 , http_path_list, file_name_list)
     else:
-        return (0,path)
+        return (0, path)
 
 def download_symbols_from_jenkins(path, name, bugid):
     import httpdownloadfile
@@ -923,6 +932,7 @@ def download_log_from_ftp(server, path, name, bugid):
                             if fail_list_num > 0:
                                 fail_list_num -= 1
                             kernel_group_buglist_old.append(bugid)
+                            save_download_status_file(bugid, 'log_status', DOWNLOAD_FAIL, DOWNLOAD_LOG_FTP)
                             save_download_end_file(bugid, ' error\n')
                         else:
                             ftp_get_bug_log_fail[i][1] += 1
@@ -1020,9 +1030,16 @@ def get_bug_file_path(api, bugid):
                                                  name='httpdownloadsymbols')
         downloadsymbolsthread.setDaemon(True)
         downloadsymbolsthread.start()
+    else:
+        save_download_status_file(bugid, 'symbols_status', DOWNLOAD_FAIL, DOWNLOAD_SYMBOLS_HTTP)
+        print_string = 'download bugid %s symbols fail not find download path' % str(bugid)
+        print_info.print_info(print_info.PRINT_INFO, print_string)
 
-    download_log_from_ftp(log_ftp_server, log_path, log_file_name, bugid)
-
+    if len(log_path) or len(log_ftp_server):
+        download_log_from_ftp(log_ftp_server, log_path, log_file_name, bugid)
+    else:
+        save_download_status_file(bugid, 'log_status', DOWNLOAD_FAIL, DOWNLOAD_LOG_FTP)
+        save_download_end_file(bugid, ' error\n')
 
 def download_log_files(api, bug_id_list):
     for x in bug_id_list:
